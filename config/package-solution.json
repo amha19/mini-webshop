@@ -1,0 +1,12 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "webshop-solutions-client-side-solution",
+    "id": "d56dc75e-a42d-4caa-8d03-336125fff0c6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/webshop-solutions.sppkg"
+  }
+}
