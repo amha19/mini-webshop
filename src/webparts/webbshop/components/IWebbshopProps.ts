@@ -5,7 +5,7 @@ export interface IWebbshopProps {
   
   handleSPDataUpdate(userId: number, products: ISPList2[]);
   orderAndProductHandler(orderId: number, products: ISPList2[]);
-  orderListSP(): Promise<ISecondList[]>;
+  orderListSP: Promise<ISecondList[]>;
   orderAndProductList(): Promise<ISPList3[]>;
   // handleSPDataUpdate(id: number, userId: any): Promise<ISecondList[]>;
   // orderList(): Promise<ISecondList[]>;

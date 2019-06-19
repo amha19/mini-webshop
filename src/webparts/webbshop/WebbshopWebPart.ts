@@ -42,7 +42,7 @@ export default class WebbshopWebPart extends BaseClientSideWebPart<IWebbshopWebP
             description: this.properties.description,
             produktList: result,          
             handleSPDataUpdate: service.handleOrderList,
-            orderListSP: service.getOrderListSP,
+            orderListSP: service.getOrderListSP(),
             userId: res.Id,
             orderAndProductHandler: service.handleOrderAndProduct,
             orderAndProductList: service.getOrderAndProductList,

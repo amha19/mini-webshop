@@ -48,6 +48,7 @@ export default class ItemsComponent extends React.Component<IItemsComponentProps
         // console.log("This is from component: ", items);
 
         let items = this.props.produktList.map((result) => {
+
             return <li style={liStyle} key={result.Id}>
                 <img width={"200px"} height={"200px"} src={result.ECWS_x002e_ImageUrl.Url} />{<br></br>}
                 {result.ECWS_x002e_ImageUrl.Description}{<br></br>}

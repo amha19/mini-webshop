@@ -1,7 +1,7 @@
 import { ISPList, ISecondList, ISPList3, ISPList2, IWebbshopProps } from "./IWebbshopProps";
 import { SPHttpClient } from '@microsoft/sp-http';
 import { sp, List } from "sp-pnp-js";
-import { Guid } from "@microsoft/sp-core-library";
+import { Guid } from "guid-typescript";
 
 
 export interface IGetDataService {
@@ -14,14 +14,14 @@ export interface IGetDataService {
     getOrderListSP(): Promise<ISecondList[]>;
     handleOrderAndProduct(orderId: number, products: ISPList2[]);
     getOrderAndProductList(): Promise<ISPList3[]>
-    
+
     // handleOrderList(id: number, userId: any): Promise<ISecondList[]>;
 }
 
 export class MockDataService implements IGetDataService {
     getOrderId() {
         throw new Error("Method not implemented.");
-    }    
+    }
     getOrderAndProductList(): Promise<ISPList3[]> {
         throw new Error("Method not implemented.");
     }
@@ -91,8 +91,8 @@ export class PnPDataService implements IGetDataService {
     constructor() {
         this.handleOrderList = this.handleOrderList.bind(this);
         // this.handleOrderAndProduct = this.handleOrderAndProduct.bind(this);
-        
-        
+
+
     }
 
     getOrderListSP(): Promise<ISecondList[]> {
@@ -109,17 +109,11 @@ export class PnPDataService implements IGetDataService {
         });
     }
 
-    
+
 
     handleOrderList(userId: number, products: ISPList2[]) {
 
-        // console.log("Event: ", event);
-
-
-        let S4 = () => {
-            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-        }
-        const guidNo = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+        let guidNo = Guid.create().toString();
 
         sp.web.lists.getByTitle('Ordrar').items.add({
             Title: 'Order_' + guidNo,
@@ -127,7 +121,7 @@ export class PnPDataService implements IGetDataService {
             ECWS_x002e_Date: new Date()
         }).then((orderId) => {
             console.log("This is Id for Ordrar list: ", orderId.data.Id);
-            
+
             // Orderrader
             this.handleOrderAndProduct(orderId.data.Id, products);
         });
@@ -136,10 +130,8 @@ export class PnPDataService implements IGetDataService {
     handleOrderAndProduct(orderId: number, products: ISPList2[]) {
 
         for (let i = 0; i < products.length; i++) {
-            let S4 = () => {
-                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-            }
-            const guidNo = (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+
+            let guidNo = Guid.create().toString();
 
             sp.web.lists.getByTitle('Orderrader').items.add({
                 Title: guidNo,
@@ -147,6 +139,8 @@ export class PnPDataService implements IGetDataService {
                 ECWS_x002e_ProductId: products[i].Id
             }).then((oId) => {
                 console.log("This is Id for Ordrar and product list: ", oId.data.Id);
+                console.log("list: ", oId);
+
             });
 
         }
@@ -154,7 +148,7 @@ export class PnPDataService implements IGetDataService {
 
     getData(): Promise<ISPList[]> {
         return sp.web.lists.getByTitle('Produkter').items.get().then((result: ISPList[]) => {
-            console.log("From getData: ", result);
+            // console.log("From getData: ", result);
             return result;
         });
     }
