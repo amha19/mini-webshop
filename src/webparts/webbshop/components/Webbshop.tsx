@@ -4,8 +4,8 @@ import { IWebbshopProps, ISPList, ISecondList, ISPList2, ISPList3 } from './IWeb
 import ItemsComponent from './ItemsComponent';
 import CartComponent from './CartComponent';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import NewComp from './NewComp';
-import ShopingList from './ShopingList';
+import { ShoppingList, IShoppingListProps } from './ShoppingList';
+import { TeachingBubble } from 'office-ui-fabric-react/lib/TeachingBubble';
 // import './style.css';
 
 export interface IWebbshopState {
@@ -40,8 +40,8 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
 
     this.onClickToOrderList = this.onClickToOrderList.bind(this);
     this.onClickToBasket = this.onClickToBasket.bind(this);
-    this.showCartList = this.showCartList.bind(this);
-    this.onClickRemoveFromBasket = this.onClickRemoveFromBasket.bind(this);
+    // this.showCartList = this.showCartList.bind(this);
+    // this.onClickRemoveFromBasket = this.onClickRemoveFromBasket.bind(this);
 
 
   }
@@ -58,7 +58,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     })
   }
 
-  onClickRemoveFromBasket(index) {
+  onClickRemoveFromBasket(index: number) {
     const total = this.state.countingNumber;
     let array = [...this.state.listTwo];
     array.splice(index, 1)
@@ -81,8 +81,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     });
   }
 
-  showCartList(event) {
-    event.preventDefault();
+  showCartList() {
     this.setState({
       showList: !this.state.showList
     });
@@ -91,9 +90,13 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
 
   public render(): React.ReactElement<IWebbshopProps> {
 
-    // let shopingList;
+    // let shoppingList = (
+    //   <div>
+        
+    //   </div>
+    // );
     // this.state.show ?
-    // shopingList = 
+    // shoppingList = 
       
     
     
@@ -101,7 +104,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     return (
       <div className={styles.webbshop}>
         <div className={styles.container}>
-          <CartComponent countingNumber={this.state.countingNumber} test2={this.showCartList}>
+          <CartComponent countingNumber={this.state.countingNumber} test2={this.showCartList.bind(this)}>          
           </CartComponent>
           <div style={{ position: 'relative', display: 'inline-block', float: 'right' }}>
             {/* {
@@ -121,12 +124,18 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
                 </div> 
                 : (null)
             } */}
-            <ShopingList></ShopingList>
+            {
+              this.state.showList ? <ShoppingList shoppingItems={this.state.listTwo} 
+              callRemoveFunction={this.onClickRemoveFromBasket.bind(this)}
+               hideShowList={this.showCartList.bind(this)} 
+               toOrderListFunction={this.onClickToOrderList.bind(this)}></ShoppingList> : null
+            }            
+          
           </div>
+          
           <ItemsComponent produktList={this.props.produktList} test={this.onClickToBasket} >
           </ItemsComponent>
 
-          {/* <NewComp message={this.state.message} message2={this.state.message2}></NewComp> */}
         </div>
       </div>
     );

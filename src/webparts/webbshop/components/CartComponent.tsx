@@ -2,7 +2,6 @@ import * as React from 'react';
 import styles from './Webbshop.module.scss';
 import { Button } from 'office-ui-fabric-react/lib/Button';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { TeachingBubbleWideIllustrationExample } from './CartItemsComp';
 
 export interface ICartComponentProps {
     countingNumber: number;
