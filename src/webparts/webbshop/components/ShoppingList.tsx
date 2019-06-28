@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { List } from 'office-ui-fabric-react/lib/List';
 import { ISPList2 } from './IWebbshopProps';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import { TeachingBubble } from 'office-ui-fabric-react/lib/TeachingBubble';
+import styles from './Webbshop.module.scss';
 
 
 export type CallRemoveFunction = (index: number) => void;
@@ -17,24 +16,34 @@ export interface IShoppingListProps {
   toOrderListFunction: CallToOrderFunction;
 }
 
-export class ShoppingList extends React.Component <IShoppingListProps, {}> {
-  public render(): React.ReactElement <IShoppingListProps> {
+export class ShoppingList extends React.Component<IShoppingListProps, {}> {
+  public render(): React.ReactElement<IShoppingListProps> {
     return (
-      <div style={{zIndex: 10, position: 'absolute', marginLeft: -329, background: 'skyblue'}}>
-        <ul>
+      <div style={{ position: 'relative', float: 'right' }}>
+        <div className={styles.shoppingContainer}>
           {this.props.shoppingItems.map((shopItem: any, index: number) => (
-            <li key={index}>
-            {/* <TeachingBubble illustrationImage={shopItem.ECWS_x002e_ImageUrl.Url}></TeachingBubble> */}
-              <img width={"75px"} height={"75px"} src={shopItem.ECWS_x002e_ImageUrl.Url} />
-              {shopItem.ECWS_x002e_ImageUrl.Description}
-              <strong>{shopItem.ECWS_x002e_Price}{' Kr'}</strong>{' '}
-              <Icon onClick={this._callRemoveFunction.bind(this, index)} iconName="ChromeClose" id="icon" className="ms-ChromeClose" />
-            </li>
+            <div key={index} style={{ width: 325 }}>
+              <div style={{ float: 'left', width: '30%' }} >
+                <img width={"75px"} height={"75px"} src={shopItem.ECWS_x002e_ImageUrl.Url} />
+              </div>
+              <div style={{ float: 'left', width: '60%' }}>
+                <div>{shopItem.ECWS_x002e_ImageUrl.Description}</div>
+                <div style={{ paddingTop: 8 }}><strong>{shopItem.ECWS_x002e_Price}{' Kr'}</strong>{' '}</div>
+              </div>
+              <div className={styles.deleteIcon} style={{ float: 'left', width: '10%', paddingTop: 27 }}>
+                <Icon onClick={this._callRemoveFunction.bind(this, index)} iconName="ChromeClose" id="icon" className="ms-ChromeClose" />
+              </div>
+              <br style={{ clear: 'left' }} />
+              <hr />
+            </div>
           ))
           }
-        </ul>
-        <DefaultButton onClick={this._callHideFunction}>Close</DefaultButton>
-        <PrimaryButton onClick={this._callToOrderFunction}>To checkout</PrimaryButton>
+          <br></br>
+          <div style={{ float: 'right' }}>
+            <DefaultButton onClick={this._callHideFunction}>Close</DefaultButton>{' '}
+            <DefaultButton onClick={this._callToOrderFunction}>Go to cart</DefaultButton>
+          </div>
+        </div>
       </div>
     );
   }

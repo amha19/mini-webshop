@@ -5,8 +5,6 @@ import ItemsComponent from './ItemsComponent';
 import CartComponent from './CartComponent';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { ShoppingList, IShoppingListProps } from './ShoppingList';
-import { TeachingBubble } from 'office-ui-fabric-react/lib/TeachingBubble';
-// import './style.css';
 
 export interface IWebbshopState {
   countingNumber: number;
@@ -15,10 +13,6 @@ export interface IWebbshopState {
   listTwo: ISPList2[];
   showList: boolean;
   displayMenu: boolean;
-  show: boolean;
-  // message: string;
-  // message2: string;
-  // secondItems: Promise<ISecondList[]>;
 }
 
 export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopState> {
@@ -32,21 +26,13 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
       listTwo: [],
       showList: false,
       displayMenu: false,
-      show: false
-      // message: styles.modal,
-      // message2: styles["modal-main"],
-      // secondItems: this.props.orderList()
     }
 
-    this.onClickToOrderList = this.onClickToOrderList.bind(this);
-    this.onClickToBasket = this.onClickToBasket.bind(this);
-    // this.showCartList = this.showCartList.bind(this);
-    // this.onClickRemoveFromBasket = this.onClickRemoveFromBasket.bind(this);
+    this._onClickToOrderList = this._onClickToOrderList.bind(this);
+    this._onClickToBasket = this._onClickToBasket.bind(this);
+  }  
 
-
-  }
-
-  onClickToBasket(id, imgUrl, imgDesc, pris) {
+  private _onClickToBasket(id, imgUrl, imgDesc, pris) {
     const total = this.state.countingNumber;
     this.setState({
       countingNumber: total + 1,
@@ -58,7 +44,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     })
   }
 
-  onClickRemoveFromBasket(index: number) {
+  private _onClickRemoveFromBasket(index: number) {
     const total = this.state.countingNumber;
     let array = [...this.state.listTwo];
     array.splice(index, 1)
@@ -66,76 +52,38 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     this.setState({
       countingNumber: total - 1,
       listTwo: array
-    })
-
-    console.log("array: ", this.state.listTwo);
-
+    });    
   }
 
-  onClickToOrderList() {
+  private _onClickToOrderList() {
     let returnVal = this.props.handleSPDataUpdate(this.props.userId, this.state.listTwo);
-    // let returnVal2 = this.props.orderAndProductHandler(0, this.state.listTwo);
     this.setState({
       orderList: returnVal,
-      //  orderAndProductList: returnVal2
     });
   }
 
-  showCartList() {
-    this.setState({
-      showList: !this.state.showList
-    });
+  private _showCartList() {
+    if(this.state.listTwo.length > 0) {
+      this.setState({
+        showList: !this.state.showList
+      });
+    }    
   }
-
 
   public render(): React.ReactElement<IWebbshopProps> {
-
-    // let shoppingList = (
-    //   <div>
-        
-    //   </div>
-    // );
-    // this.state.show ?
-    // shoppingList = 
-      
-    
-    
-
     return (
       <div className={styles.webbshop}>
         <div className={styles.container}>
-          <CartComponent countingNumber={this.state.countingNumber} test2={this.showCartList.bind(this)}>          
+          <CartComponent countingNumber={this.state.countingNumber} test2={this._showCartList.bind(this)}>
           </CartComponent>
-          <div style={{ position: 'relative', display: 'inline-block', float: 'right' }}>
-            {/* {
-              this.state.showList ?              
-                <div>
-                  <ul style={{ listStyle: 'none' }}>
-                    {this.state.listTwo.map((o, index) => {
-                      return <li>
-                        <img width={"75px"} height={"75px"} src={o.ECWS_x002e_ImageUrl.Url} />
-                        {' '}{o.ECWS_x002e_ImageUrl.Description}{' '}
-                        <strong>{o.ECWS_x002e_Price}{' Kr'}</strong>{' '}
-                        <Icon onClick={this.onClickRemoveFromBasket.bind(this, index)} iconName="ChromeClose" id="icon" className="ms-ChromeClose" />
-                      </li>
-                    })}
-                    <br></br>
-                  </ul> <button style={{ float: 'right' }} onClick={this.onClickToOrderList}>Gå till checkout</button>
-                </div> 
-                : (null)
-            } */}
-            {
-              this.state.showList ? <ShoppingList shoppingItems={this.state.listTwo} 
-              callRemoveFunction={this.onClickRemoveFromBasket.bind(this)}
-               hideShowList={this.showCartList.bind(this)} 
-               toOrderListFunction={this.onClickToOrderList.bind(this)}></ShoppingList> : null
-            }            
-          
-          </div>
-          
-          <ItemsComponent produktList={this.props.produktList} test={this.onClickToBasket} >
+          {
+            (this.state.listTwo.length != 0 && this.state.showList) ? <ShoppingList shoppingItems={this.state.listTwo} 
+            callRemoveFunction={this._onClickRemoveFromBasket.bind(this)}
+              hideShowList={this._showCartList.bind(this)} 
+              toOrderListFunction={this._onClickToOrderList.bind(this)}></ShoppingList> : null
+          }           
+          <ItemsComponent produktList={this.props.produktList} test={this._onClickToBasket} >
           </ItemsComponent>
-
         </div>
       </div>
     );

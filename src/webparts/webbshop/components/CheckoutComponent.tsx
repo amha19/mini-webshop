@@ -25,7 +25,7 @@ export default class CheckoutComponent extends React.Component<ICheckoutComponen
             <div className={styles.webbshop}>
                 <div className={styles.container}>
                     <div className={styles.row}>
-                        <div className={styles.column}>
+                        <div >
                             <ul>
                                 {items}
                             </ul>
