@@ -34,27 +34,19 @@ export default class WebbshopWebPart extends BaseClientSideWebPart<IWebbshopWebP
 
     service.getData().then((result) => {
       sp.web.currentUser.get().then((res) => {
-        console.log("UserId: ", res.Title);
-        
         const element: React.ReactElement<IWebbshopProps> = React.createElement(
           Webbshop,
           {
             description: this.properties.description,
             produktList: result,          
             handleSPDataUpdate: service.handleOrderList,
-            orderListSP: service.getOrderListSP(),
             userId: res.Id,
-            orderAndProductHandler: service.handleOrderAndProduct,
-            orderAndProductList: service.getOrderAndProductList,
-            
-            // orderList: service.getOrderList,
-            // handleDataUpdate: service.handleMyList2,
+            orderAndProductHandler: service.handleOrderAndProduct            
           }
         );
         ReactDom.render(element, this.domElement);
       });
-
-    })
+    });
   }
 
   protected get dataVersion(): Version {

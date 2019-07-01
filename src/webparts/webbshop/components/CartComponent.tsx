@@ -11,7 +11,7 @@ const divStyle = {
         background: '#021e7a',
         paddingTop: 0,
         paddingBottom: 0,        
-}
+};
 
 export default class CartComponent extends React.Component<ICartComponentProps, {}> {
     public render(): React.ReactElement<ICartComponentProps> {        

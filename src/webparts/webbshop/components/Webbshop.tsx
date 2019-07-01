@@ -1,18 +1,14 @@
 import * as React from 'react';
 import styles from './Webbshop.module.scss';
-import { IWebbshopProps, ISPList, ISecondList, ISPList2, ISPList3 } from './IWebbshopProps';
+import { IWebbshopProps, ISPList, ISPList2 } from './IWebbshopProps';
 import ItemsComponent from './ItemsComponent';
 import CartComponent from './CartComponent';
-import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { ShoppingList, IShoppingListProps } from './ShoppingList';
 
 export interface IWebbshopState {
   countingNumber: number;
-  orderList: Promise<ISecondList[]>;
-  orderAndProductList: Promise<ISPList3[]>;
   listTwo: ISPList2[];
   showList: boolean;
-  displayMenu: boolean;
 }
 
 export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopState> {
@@ -21,33 +17,29 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
 
     this.state = {
       countingNumber: 0,
-      orderList: this.props.orderListSP,
-      orderAndProductList: this.props.orderAndProductList(),
       listTwo: [],
       showList: false,
-      displayMenu: false,
-    }
+    };
+  }
 
-    this._onClickToOrderList = this._onClickToOrderList.bind(this);
-    this._onClickToBasket = this._onClickToBasket.bind(this);
-  }  
-
-  private _onClickToBasket(id, imgUrl, imgDesc, pris) {
+  /** Adding items to cart list */
+  private _onClickToBasket(id: number, imgUrl: string, imgDesc: string, pris: number) {
     const total = this.state.countingNumber;
     this.setState({
       countingNumber: total + 1,
       listTwo: [...this.state.listTwo, {
-        Id: id, ECWS_x002e_ImageUrl:
+        Id: id, ImageUrl:
           { Url: imgUrl, Description: imgDesc },
-        ECWS_x002e_Price: pris
+        Price: pris
       }]
-    })
+    });
   }
 
+  /** Removing unwanted items from the cart */  
   private _onClickRemoveFromBasket(index: number) {
     const total = this.state.countingNumber;
     let array = [...this.state.listTwo];
-    array.splice(index, 1)
+    array.splice(index, 1);
 
     this.setState({
       countingNumber: total - 1,
@@ -55,34 +47,40 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     });    
   }
 
+  /** Adding the order lists and the whole order number in SharePoint list */
   private _onClickToOrderList() {
-    let returnVal = this.props.handleSPDataUpdate(this.props.userId, this.state.listTwo);
+    this.props.handleSPDataUpdate(this.props.userId, this.state.listTwo);
     this.setState({
-      orderList: returnVal,
+      showList: !this.state.showList
     });
   }
 
+  /** Toggle the cart list */
   private _showCartList() {
     if(this.state.listTwo.length > 0) {
       this.setState({
         showList: !this.state.showList
-      });
+      });      
     }    
   }
 
   public render(): React.ReactElement<IWebbshopProps> {
+    console.log("listTwo: ", this.state.listTwo);
+    console.log("produktList: ", this.props.produktList);
     return (
       <div className={styles.webbshop}>
         <div className={styles.container}>
           <CartComponent countingNumber={this.state.countingNumber} test2={this._showCartList.bind(this)}>
           </CartComponent>
           {
-            (this.state.listTwo.length != 0 && this.state.showList) ? <ShoppingList shoppingItems={this.state.listTwo} 
+            (this.state.listTwo.length != 0 && this.state.showList) ?
+            <ShoppingList shoppingItems={this.state.listTwo} 
             callRemoveFunction={this._onClickRemoveFromBasket.bind(this)}
               hideShowList={this._showCartList.bind(this)} 
-              toOrderListFunction={this._onClickToOrderList.bind(this)}></ShoppingList> : null
+              toOrderListFunction={this._onClickToOrderList.bind(this)}></ShoppingList>
+            : null
           }           
-          <ItemsComponent produktList={this.props.produktList} test={this._onClickToBasket} >
+          <ItemsComponent produktList={this.props.produktList} test={this._onClickToBasket.bind(this)} >
           </ItemsComponent>
         </div>
       </div>

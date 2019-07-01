@@ -17,7 +17,7 @@ export default class ItemsComponent extends React.Component<IItemsComponentProps
                 <span className={styles.price}><strong>{result.ECWS_x002e_Price}{' Kr'}</strong></span>{<br></br>}                
                 {<DefaultButton style={{background: '#e7e7e7', marginTop: 3}} onClick={this.props.test.bind(this, result.Id, result.ECWS_x002e_ImageUrl.Url,
                 result.ECWS_x002e_ImageUrl.Description, result.ECWS_x002e_Price)}>Add to cart</DefaultButton>}
-            </li>
+            </li>;
         });
         // console.log("This is from component: ", items);
         return (

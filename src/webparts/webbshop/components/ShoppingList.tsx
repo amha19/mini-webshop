@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ISPList2 } from './IWebbshopProps';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
-import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import styles from './Webbshop.module.scss';
 
 
@@ -24,11 +24,11 @@ export class ShoppingList extends React.Component<IShoppingListProps, {}> {
           {this.props.shoppingItems.map((shopItem: any, index: number) => (
             <div key={index} style={{ width: 325 }}>
               <div style={{ float: 'left', width: '30%' }} >
-                <img width={"75px"} height={"75px"} src={shopItem.ECWS_x002e_ImageUrl.Url} />
+                <img width={"75px"} height={"75px"} src={shopItem.ImageUrl.Url} />
               </div>
               <div style={{ float: 'left', width: '60%' }}>
-                <div>{shopItem.ECWS_x002e_ImageUrl.Description}</div>
-                <div style={{ paddingTop: 8 }}><strong>{shopItem.ECWS_x002e_Price}{' Kr'}</strong>{' '}</div>
+                <div>{shopItem.ImageUrl.Description}</div>
+                <div style={{ paddingTop: 8 }}><strong>{shopItem.Price}{' Kr'}</strong>{' '}</div>
               </div>
               <div className={styles.deleteIcon} style={{ float: 'left', width: '10%', paddingTop: 27 }}>
                 <Icon onClick={this._callRemoveFunction.bind(this, index)} iconName="ChromeClose" id="icon" className="ms-ChromeClose" />

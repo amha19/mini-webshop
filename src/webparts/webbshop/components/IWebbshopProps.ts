@@ -5,11 +5,6 @@ export interface IWebbshopProps {
   
   handleSPDataUpdate(userId: number, products: ISPList2[]);
   orderAndProductHandler(orderId: number, products: ISPList2[]);
-  orderListSP: Promise<ISecondList[]>;
-  orderAndProductList(): Promise<ISPList3[]>;
-  // handleSPDataUpdate(id: number, userId: any): Promise<ISecondList[]>;
-  // orderList(): Promise<ISecondList[]>;
-  // handleDataUpdate(id: number): Promise<ISecondList[]>;
 }
 
 export interface ISPList {
@@ -25,8 +20,8 @@ export interface ISPList {
 
 export interface ISPList2 { 
   Id: number;  
-  ECWS_x002e_Price: number;
-  ECWS_x002e_ImageUrl: {
+  Price: number;
+  ImageUrl: {
     Description: string,
     Url: string
   };
@@ -37,10 +32,4 @@ export interface ISecondList {
   Title: string;
   ECWS_x002e_User: string;
   ECWS_x002e_Date: Date;
-}
-
-export interface ISPList3 {
-  Title: string;
-  ECWS_x002e_Order: string;
-  ECWS_x002e_Product: string;
 }
