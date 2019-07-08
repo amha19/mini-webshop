@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styles from './Webbshop.module.scss';
-import { IWebbshopProps, ISPList, ISPList2 } from './IWebbshopProps';
+import { IWebbshopProps, ISPList2 } from './IWebbshopProps';
 import ItemsComponent from './ItemsComponent';
 import CartComponent from './CartComponent';
-import { ShoppingList, IShoppingListProps } from './ShoppingList';
+import { ShoppingList } from './ShoppingList';
 
 export interface IWebbshopState {
   countingNumber: number;
@@ -35,7 +35,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     });
   }
 
-  /** Removing unwanted items from the cart */  
+  /** Removing unwanted items from the cart */
   private _onClickRemoveFromBasket(index: number) {
     const total = this.state.countingNumber;
     let array = [...this.state.listTwo];
@@ -44,7 +44,7 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
     this.setState({
       countingNumber: total - 1,
       listTwo: array
-    });    
+    });
   }
 
   /** Adding the order lists and the whole order number in SharePoint list */
@@ -57,11 +57,11 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
 
   /** Toggle the cart list */
   private _showCartList() {
-    if(this.state.listTwo.length > 0) {
+    if (this.state.listTwo.length > 0) {
       this.setState({
         showList: !this.state.showList
-      });      
-    }    
+      });
+    }
   }
 
   public render(): React.ReactElement<IWebbshopProps> {
@@ -74,12 +74,12 @@ export default class Webbshop extends React.Component<IWebbshopProps, IWebbshopS
           </CartComponent>
           {
             (this.state.listTwo.length != 0 && this.state.showList) ?
-            <ShoppingList shoppingItems={this.state.listTwo} 
-            callRemoveFunction={this._onClickRemoveFromBasket.bind(this)}
-              hideShowList={this._showCartList.bind(this)} 
-              toOrderListFunction={this._onClickToOrderList.bind(this)}></ShoppingList>
-            : null
-          }           
+              <ShoppingList shoppingItems={this.state.listTwo}
+                callRemoveFunction={this._onClickRemoveFromBasket.bind(this)}
+                hideShowList={this._showCartList.bind(this)}
+                toOrderListFunction={this._onClickToOrderList.bind(this)}></ShoppingList>
+              : null
+          }
           <ItemsComponent produktList={this.props.produktList} test={this._onClickToBasket.bind(this)} >
           </ItemsComponent>
         </div>

@@ -41,7 +41,7 @@ export class ShoppingList extends React.Component<IShoppingListProps, {}> {
           <br></br>
           <div style={{ float: 'right' }}>
             <DefaultButton onClick={this._callHideFunction}>Close</DefaultButton>{' '}
-            <DefaultButton onClick={this._callToOrderFunction}>Go to cart</DefaultButton>
+            <DefaultButton onClick={this._callToOrderFunction}>Go to payment</DefaultButton>
           </div>
         </div>
       </div>
